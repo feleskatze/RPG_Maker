@@ -3,10 +3,8 @@
 #define DDX_NON_INLINE_ASM
 
 #include "DXlib.h"
-
-
-char Key[256];
-int gpUpdateKey();
+#include "KeyBoard.hpp"
+#include "Message.hpp"
 
 ////////////////////////////////////////////////////
 // Main
@@ -14,12 +12,21 @@ int gpUpdateKey();
 
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 {
+  SetOutApplicationLogValidFlag(false);
+  SetMainWindowText("RPG");
+  SetGraphMode(640,480,16);
   ChangeWindowMode(TRUE); // Window Modw
   if(DxLib_Init()== -1)return -1;//DX Library Init
-    SetDrawScreen(DX_SCREEN_BACK);
+  SetDrawScreen(DX_SCREEN_BACK);
+
+  // Init
+  Message Message;
 
 
-  while(ScreenFlip()==0 && ProcessMessage()==0 && ClearDrawScreen()==0 && gpUpdateKey()==0){
+  // Main Loop
+  while(ScreenFlip()==0 && ProcessMessage()==0 && ClearDrawScreen()==0 && KeyBoard_Update()==0){
+
+    Message.Run("こっこｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋｋ");
 
 
 
@@ -27,26 +34,8 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 
 
 
-
-  }//while
+  }// Main Loop End
 
   DxLib_End();//DX Library End
   return 0;
-}
-
-////////////////////////////////////////////
-// KeyBoard Input
-////////////////////////////////////////////
-
-int gpUpdateKey(){
- char tmpKey[256];
- GetHitKeyStateAll(tmpKey);
- for(int i=0;i<256;i++){
-  if(tmpKey[i]!=0){
-   Key[i]++;
-  }else{
-   Key[i]=0;
-  }
- }
- return 0;
 }

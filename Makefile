@@ -14,6 +14,10 @@ OBJDIR=./obj
 OBJS=$(addprefix $(OBJDIR)/, $(notdir $(SOURCES:.cpp=.o)))
 DEPENDS   = $(OBJS:.o=.d)
 
+.PHONY: all
+all: $(TARGET)
+
+
 .PHONY: start
 start:
 	$(TARGET)
